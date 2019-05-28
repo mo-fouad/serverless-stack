@@ -1,0 +1,25 @@
+Resources:
+  #creating the table resource
+  NotesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.tableName}
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: noteId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: noteId
+          KeyType: RANGE
+      # Set the capacity based on the stage
+      ProvisionedThroughput:
+        ReadCapacityUnits: ${self:custom.tableThroughput}
+        WriteCapacityUnits: ${self:custom.tableThroughput}
+
+# We are describing a DynamoDB table resource called NotesTable.
+# The table we get from a custom variable ${self:custom.tableName}. This is generated dynamically in our serverless.yml. We will look at this in detail below.
+# We are also configuring the two attributes of our table as userId and noteId.
+# Finally, we are provisioning the read/write capacity for our table through a couple of custom variables as well. We will be defining this shortly.
